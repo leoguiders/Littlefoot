@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using NetCoreServer;
 
 namespace Littlefoot.Server
@@ -27,6 +23,29 @@ namespace Littlefoot.Server
         protected override void OnError(SocketError error)
         {
             Console.WriteLine($"TCP session caught an error with code {error}");
+        }
+
+        protected override void OnReceived(byte[] buffer, long offset, long size)
+        {
+            string message = Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
+            Console.WriteLine("Incoming: " + message);
+
+            switch (message)
+            {
+                case "TAP":
+                    TapTempo.Tap();
+                    break;
+                case "START_STOP":
+                    ShowRunner.StartStop();
+                    break;
+                case "PAUSE_CONTINUE":
+                    ShowRunner.PauseContinue();
+                    break;
+            }
+
+            // If the buffer starts with '!' the disconnect the current session
+            //if (message == "!")
+            //    Disconnect();
         }
     }
 }

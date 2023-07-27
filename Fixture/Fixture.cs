@@ -14,6 +14,6 @@
         public byte OffsetRed { get; set; } = 2;
         public byte OffsetGreen { get; set; } = 3;
         public byte OffsetBlue { get; set; } = 4;
-        public byte OffsetAmber { get; set; } = 5;
+        public byte OffsetWhite { get; set; } = 5;
     }
 }
